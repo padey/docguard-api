@@ -17,7 +17,9 @@ There are two functions.
 `python3 docguard.py -search -api-key "YOUR_API_KEY" -hash "30090f902cead484616d3a8041f0e18242b22566aeea28160865bfe2227f72f6"`
 
 
-> Output: Verdict: Malicious FileName: eicar-adobe-acrobat-javascript-alert.pdf
+> Verdict: Malicious 
+>
+> FileName: eicar-adobe-acrobat-javascript-alert.pdf
 >
 > FileType: PDF File
 >
@@ -30,7 +32,9 @@ There are two functions.
 `python3 docguard.py -submit -api-key "YOUR_API_KEY" -file "testfiles/eicar-adobe-acrobat-javascript-alert.pdf" (optinal arguments: -password "file_password" & -public = "true/false", default: false)`
 
 
-> Verdict: Malicious FileName: eicar-adobe-acrobat-javascript-alert.pdf
+> Verdict: Malicious 
+>
+> FileName: eicar-adobe-acrobat-javascript-alert.pdf
 >
 > FileType: PDF File
 >
