@@ -63,7 +63,7 @@ def send_post_request(apikey, file_path, password="infected", public="false"):
             json_response = response.json()
 
             # Print the specified values
-            print(f'Verdict (in bold): **{json_response.get("Verdict", "N/A")}**')
+            print(f'Verdict: **{json_response.get("Verdict", "N/A")}**')
             print(f'FileName: {json_response.get("FileName", "N/A")}')
             print(f'FileType: {json_response.get("FileType", "N/A")}')
             print(f'FileSha256Hash: {json_response.get("FileSha256Hash", "N/A")}')
