@@ -1,5 +1,5 @@
 # WORK IN PROGRESS
- may crash.. may not.
+ may crash.. may not. this cli tool will hopefully develop into a TheHive Cortex Analyzer ;-)
 
 * Python API for <https://www.docguard.io/>
 
