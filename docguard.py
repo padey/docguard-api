@@ -42,29 +42,26 @@ def send_post_request(apikey, file_path, password="infected", public="false"):
     }
 
     try:
-        # Open the file in binary mode
-        with open(file_path, 'rb') as file:
-            # Create a dictionary for form fields, including the 'file' parameter
-            data = {
-                'password': password,
-                'isPublic': public,
-                'file': (None, file)
-            }
+        # Create a dictionary for form fields, including the 'file' parameter
+        data = {
+            'file': (None, open(file_path, 'rb')),
+            'isPublic': public
+        }
 
-            # Send the POST request with form fields in the payload
-            response = requests.post(url, headers=headers, files=data)
+        # Send the POST request with form fields in the payload
+        response = requests.post(url, headers=headers, files=data)
 
-            if response.status_code == 200:
-                # Parse and format the JSON response
-                json_response = response.json()
-                formatted_response = json.dumps(json_response, indent=4)  # Format the JSON
-                print(formatted_response)
+        if response.status_code == 200:
+            # Parse and format the JSON response
+            json_response = response.json()
+            formatted_response = json.dumps(json_response, indent=4)  # Format the JSON
+            print(formatted_response)
 
-                # Print the executed curl command for debugging
-                curl_command = curlify.to_curl(response.request)
-                print(f'curl command: {curl_command}')
-            else:
-                print(f'Error: {response.status_code} - {response.text}')
+            # Print the executed curl command for debugging
+            curl_command = curlify.to_curl(response.request)
+            print(f'curl command: {curl_command}')
+        else:
+            print(f'Error: {response.status_code} - {response.text}')
 
     except FileNotFoundError:
         print(f'File not found: {file_path}')
@@ -72,7 +69,6 @@ def send_post_request(apikey, file_path, password="infected", public="false"):
         print(f'Error sending the POST request: {e}')
 
 if __name__ == '__main__':
-
     parser = argparse.ArgumentParser(description='Send GET or POST request to an API.')
     parser.add_argument('-search', action='store_true', help='Perform a hash search')
     parser.add_argument('-submit', action='store_true', help='Submit a file for analysis')
