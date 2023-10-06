@@ -1,8 +1,8 @@
 import argparse
+import os
 import requests
 from requests.exceptions import RequestException
 import json
-import curlify
 
 def send_get_request(apikey, hash_value):
     # Construct the URL for the GET request with the hash value
@@ -18,14 +18,21 @@ def send_get_request(apikey, hash_value):
         response = requests.get(url, headers=headers)
 
         if response.status_code == 200:
-            # Parse and format the JSON response
+            # Parse the JSON response
             json_response = response.json()
-            formatted_response = json.dumps(json_response, indent=4)  # Format the JSON
-            print(formatted_response)
 
-            # Print the executed curl command for debugging
-            curl_command = curlify.to_curl(response.request)
-            print(f'curl command: {curl_command}')
+            # Print the specified values
+            print(f'Verdict: **{json_response.get("Verdict", "N/A")}**')
+            print(f'FileName: {json_response.get("FileName", "N/A")}')
+            print(f'FileType: {json_response.get("FileType", "N/A")}')
+            print(f'FileSha256Hash: {json_response.get("FileSha256Hash", "N/A")}')
+
+            # Save the JSON response to a file with the same name as FileSha256Hash
+            filename = f'{hash_value}.json'
+            with open(filename, 'w') as json_file:
+                json_file.write(json.dumps(json_response, indent=4))
+
+            print(f'Response saved as: {filename}')
         else:
             print(f'Error: {response.status_code} - {response.text}')
 
@@ -44,22 +51,30 @@ def send_post_request(apikey, file_path, password="infected", public="false"):
     try:
         # Create a dictionary for form fields, including the 'file' parameter
         data = {
-            'file': (None, open(file_path, 'rb')),
+            'password': password,
             'isPublic': public
         }
 
-        # Send the POST request with form fields in the payload
-        response = requests.post(url, headers=headers, files=data)
+        # Send the POST request with form fields and the specified file
+        response = requests.post(url, headers=headers, data=data, files={'file': (file_path, open(file_path, 'rb'))})
 
         if response.status_code == 200:
-            # Parse and format the JSON response
+            # Parse the JSON response
             json_response = response.json()
-            formatted_response = json.dumps(json_response, indent=4)  # Format the JSON
-            print(formatted_response)
 
-            # Print the executed curl command for debugging
-            curl_command = curlify.to_curl(response.request)
-            print(f'curl command: {curl_command}')
+            # Print the specified values
+            print(f'Verdict (in bold): **{json_response.get("Verdict", "N/A")}**')
+            print(f'FileName: {json_response.get("FileName", "N/A")}')
+            print(f'FileType: {json_response.get("FileType", "N/A")}')
+            print(f'FileSha256Hash: {json_response.get("FileSha256Hash", "N/A")}')
+
+            # Save the JSON response to a file with the same name as FileSha256Hash
+            hash_value = json_response.get('FileSha256Hash', 'unknown')
+            filename = f'{hash_value}.json'
+            with open(filename, 'w') as json_file:
+                json_file.write(json.dumps(json_response, indent=4))
+
+            print(f'Response saved as: {filename}')
         else:
             print(f'Error: {response.status_code} - {response.text}')
 
