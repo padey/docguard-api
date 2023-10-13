@@ -5,10 +5,12 @@
 
 There are two functions.
 
+1. Search for a Hash
+2. Submit a file for Analyze
+- Each Request will be saved under the FileSha256hash.json
 
-1. Search for HASH
-2. Submit for Analyze
-3. Each Request will be saved under the FileSha256hash.json
+### Requierments:
+- Docguard Individiual / Team Plan
 
 # HowTo
 
